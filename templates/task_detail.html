@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>{{ object.title }}</h2>
+<p>{{ object.category }} | Category</p>
+<p>{{ object.description }}</p>
+{{object.slug}}
+<a href="{% url 'ToDo:task_list' %}">All Task</a>
+{% endblock content %}
