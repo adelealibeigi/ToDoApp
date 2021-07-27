@@ -2,11 +2,14 @@
 {% block title %}Task List{% endblock title %}
 {% block content %}
     {% for task in object_list %}
-        <a href="{% url 'task_detail' task.slug %}">{{ task.title }}
+
+        {% comment %} <a href="{% url 'task_detail'  %}">{{ task.title }}
+        {% endcomment %}
 
         </a>
-            <span>{{ task.category }} Category |
-            {{ task.due_date }}</span>
+        <div>
+            <a href="{% url 'ToDo:task_detail' task.slug %}">{{ task.title }}</a> |
+            <span>{{ task.category }} Category | {{ task.due_date }}</span>
         </div>
         <div>
             {{ task.description }}
