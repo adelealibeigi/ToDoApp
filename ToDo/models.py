@@ -46,11 +46,11 @@ class TaskList(models.Model):
     due_time = models.TimeField(default=timezone.now().strftime("%H:%M"), null=True, blank=True)
     slug = models.SlugField(max_length=100, unique=True)
 
+    def get_absolute_url(self):
+        # return reverse('task_detail', args=[str(self.id)])
+        return reverse('todo:task_detail', kwargs={"slug": self.slug})
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(rand_slug() + "-" + self.title)
         super(TaskList, self).save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        # return reverse('task_detail', args=[str(self.id)])
-        return reverse('task_detail', kwargs={"slug": self.slug})

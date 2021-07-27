@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Task List{% endblock title %}
 {% block content %}
-    {% for task in object_list %}
-        <a href="{% url 'task_detail' task.slug %}">{{ task.title }}
+    {% for task in object_list %}3
+        {{task.slug}}<br>
+        {% comment %} <a href="{% url 'task_detail'  %}">{{ task.title }} {% endcomment %}
 
         </a>
+        <p><a href="{% url 'todo:task_detail' task.slug %}">Edit</a> |
             <span>{{ task.category }} Category |
             {{ task.due_date }}</span>
         </div>
