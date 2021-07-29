@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+{% block title %}Task Detail{% endblock title %}
+{% block content %}
+{% load custom_tags %}
+<h2>
+    {{ object.title }}<small> | {{ object.category }} | {{object.get_priority_display}}</small>
+</h2>
+
+<p>{{ object.description }}</p>
+<div>
+    {{object.due_time}} {{object.due_date }}
+</div>
+{% delta_days object.due_date %} Day(s)
+<div>
+    {%if object.done == True %}
+        Done!
+    {% else %}
+        Do it!
+    {% endif %}
+</div>
+{% endblock content %}
