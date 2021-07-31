@@ -1,43 +1,78 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 {% block title %}Task List{% endblock title %}
 {% block content %}
 {% load custom_tags %}
+{% comment %} <a href="{% url 'task_detail'  %}">{{ task.title }}
+{% endcomment %}
 
-    {% for task in object_list %}
+</a>
+<h5 class="mb-0"><i class="fas fa-tasks me-2 btn-success"></i>Task List</h5>
+{% if object_list%}
+<table class="table mb-0">
+      <thead>
+        <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Category</th>
+            <th scope="col">Time Left</th>
+            <th scope="col">Actions</th>
+            <th scope="col">Done</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in object_list %}
+        <tr class="fw-normal">
+          <th>
+            <span class="ms-2"><a href="{% url 'ToDo:task_detail' task.slug %}">{{ task.title|title }}</a></span>
+          </th>
+             <td class="align-middle">
 
-        {% comment %} <a href="{% url 'task_detail'  %}">{{ task.title }}
-        {% endcomment %}
+              {% if task.priority == 3 %}
+                <h6 class="mb-0"><span class="badge bg-danger">High priority</span></h6>
+              {% endif %}
 
-        </a>
-        <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
-              <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
-                <div class="form-check">
-                  <input
-                    class="form-check-input me-0"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckChecked1"
-                    aria-label="..."
-                    checked
-                  />
-                </div>
-              </li>
-              <li class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                <p class="lead fw-normal mb-0"><a href="{% url 'ToDo:task_detail' task.slug %}">{{ task.title|title }}</a></p>
-              </li>
-              <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                <div class="d-flex flex-row justify-content-end mb-1">
-                  <a href="#!" class="text-info" data-mdb-toggle="tooltip" title="Edit todo"><i class="fas fa-pencil-alt me-3"></i></a>
-                  <a href="#!" class="text-danger" data-mdb-toggle="tooltip" title="Delete todo"><i class="fas fa-trash-alt"></i></a>
-                </div>
-                <div class="text-end text-muted">
-                    {% delta_days task.due_date %} Day(s)
-                  <a href="#!" class="text-muted" data-mdb-toggle="tooltip" title="Created date">
-                    <p class="small mb-0"><i class="fas fa-info-circle me-2"></i>{{ task.due_date }}</p></a>
-                </div>
-              </li>
-            </ul>
+              {% if task.priority == 2 %}
+                <h6 class="mb-0"><span class="badge bg-warning">Middle priority</span></h6>
+              {% endif %}
 
-        <br />
-    {% endfor %}
+              {% if task.priority == 1 %}
+                <h6 class="mb-0"><span class="badge bg-success">Low priority</span></h6>
+              {% endif %}
+
+          </td>
+          <td class="align-middle">
+            <span >{{task.category}} </span >
+          </td>
+
+          <td class="align-middle">
+            <span > {% delta_days task.due_date %} Day(s)</span >
+          </td>
+
+          <td class="align-middle">
+            <a href="{% url 'ToDo:task_update' task.slug %}" data-mdb-toggle="tooltip" title="Done">
+                <i class="fas fa-edit text-success me-3"></i></a>
+
+            <a href="{% url 'ToDo:task_delete' task.slug %}" data-mdb-toggle="tooltip" title="Remove">
+                <i class="fas fa-trash-alt text-danger"></i></a>
+          </td>
+
+
+            <td class="align-middle">
+            <span >
+                {% if task.done == True %}
+                    <i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>
+                {% else %}
+                    <i class="fa fa-circle-o text-success" aria-hidden="true"></i>
+                {% endif %}
+            </span >
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+<br />
+{%else%}
+Empty
+{%endif%}
+
 {% endblock content %}

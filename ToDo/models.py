@@ -10,7 +10,7 @@ import random
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100,unique=True)
     objects = TaskOfCategoryManager()
 
     def get_absolute_url(self):
@@ -44,12 +44,12 @@ class TaskList(models.Model):
         ordering = ["-due_date"]
 
     PRIORITY_STATUS = (
-        (0, 'None',), (1, 'Low',), (2, 'Medium',), (3, 'High',),
+        (1, 'Low',), (2, 'Middle',), (3, 'High',),
     )
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=400, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, default='Tasks', related_name='task_category')
-    priority = models.IntegerField(choices=PRIORITY_STATUS, default=0)
+    priority = models.IntegerField(choices=PRIORITY_STATUS, default=1)
     due_date = models.DateTimeField(default=timezone.now)
     slug = models.SlugField(max_length=100, unique=True)
     done = models.BooleanField('Done', default=False)
